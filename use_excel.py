@@ -16,6 +16,7 @@ from datetime import datetime
 from openpyxl import Workbook, load_workbook
 from openpyxl.drawing.image import Image
 from openpyxl.styles import Font, colors
+import MySQLdb
 
 
 class ExcelUtils():
