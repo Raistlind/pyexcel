@@ -62,9 +62,27 @@ class ExcelUtils():
         print(names)
         # wb = ws.active
         wb = ws['北京大学统计']
-        for row in wb.rows:
-            for cell in row:
-                print(cell.value)
+        for (i, row) in enumerate(wb.rows):
+            if i < 2:
+                continue
+            year = wb['A{0}'.format(i+1)].value
+            max_score = wb['B{0}'.format(i+1)].value
+            avg_score = wb['C{0}'.format(i+1)].value
+
+            print(year, max_score, avg_score)
+
+            if year is None:
+                continue
+
+            conn = client.get_conn()
+            cursor = conn.cursor()
+            sql = 'insert into user_score (year, max_score, avg_score) values ({year}, {max_score} , {avg_score})'\
+                .format(year=year, max_score=max_score, avg_score=avg_score)
+            result = cursor.execute(sql)
+            conn.autocommit(True)
+            print(result)
+
+
 
     def get_conn(self):
         conn = MySQLdb.connect(
@@ -81,10 +99,5 @@ class ExcelUtils():
 if __name__ == '__main__':
     client = ExcelUtils()
     # client.do_sth()
-    # client.read_xls()
-    conn = client.get_conn()
-    cursor = conn.cursor()
-    sql = 'insert into user_score (year, max_score, avg_score) values (2098, 345 , 222)'
-    result = cursor.execute(sql)
-    conn.autocommit(True)
-    print(result)
+    client.read_xls()
+
