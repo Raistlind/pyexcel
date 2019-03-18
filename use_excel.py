@@ -66,8 +66,25 @@ class ExcelUtils():
             for cell in row:
                 print(cell.value)
 
+    def get_conn(self):
+        conn = MySQLdb.connect(
+            db='user_grade',
+            host='localhost',
+            user='root',
+            password='123456',
+            charset='utf8',
+            unix_socket='/Applications/MAMP/tmp/mysql/mysql.sock'
+        )
+        return conn
+
 
 if __name__ == '__main__':
     client = ExcelUtils()
     # client.do_sth()
-    client.read_xls()
+    # client.read_xls()
+    conn = client.get_conn()
+    cursor = conn.cursor()
+    sql = 'insert into user_score (year, max_score, avg_score) values (2098, 345 , 222)'
+    result = cursor.execute(sql)
+    conn.autocommit(True)
+    print(result)
