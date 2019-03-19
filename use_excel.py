@@ -97,14 +97,17 @@ class ExcelUtils():
         wb.save('./static/export.xlsx')
 
     def get_conn(self):
-        conn = MySQLdb.connect(
-            db='user_grade',
-            host='localhost',
-            user='root',
-            password='123456',
-            charset='utf8',
-            unix_socket='/Applications/MAMP/tmp/mysql/mysql.sock'
-        )
+        try:
+            conn = MySQLdb.connect(
+                db='user_grade',
+                host='localhost',
+                user='root',
+                password='123456',
+                charset='utf8',
+                unix_socket='/Applications/MAMP/tmp/mysql/mysql.sock'
+            )
+        except:
+            pass
         return conn
 
 
